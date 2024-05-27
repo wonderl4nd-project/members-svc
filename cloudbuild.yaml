@@ -1,0 +1,37 @@
+steps:
+#Testing
+- name: 'gradle:8-jdk21' 
+  entrypoint: 'gradle'
+  args: ['test']
+#Gradle build
+- name: 'gradle:8-jdk21' 
+  entrypoint: 'gradle'
+  args: ['assemble']
+#Docker Build
+- name: gcr.io/cloud-builders/docker
+  args: [
+   'build', 
+   '-t', 
+   'gcr.io/wonderl4nd-project/members-svc:${COMMIT_SHA}',
+   '-t', 
+   'gcr.io/wonderl4nd-project/members-svc:latest',
+   '.'
+  ]
+#Create Release
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'gcloud'
+  args: [
+      "deploy", "releases", "create", "member-release-${SHORT_SHA}",
+      "--delivery-pipeline", "members-svc-delivery-pipeline",
+      "--region", "us-central1",
+      "--annotations", "commitId=${REVISION_ID}",
+      "--from-k8s-manifest", "config/stag/application.deployment.yaml"
+    ]
+
+# push images to Google Container Registry with tags
+images: [
+   'gcr.io/wonderl4nd-project/members-svc:${COMMIT_SHA}',
+   'gcr.io/wonderl4nd-project/members-svc:latest'
+  ]
+options:
+  logging: CLOUD_LOGGING_ONLY
