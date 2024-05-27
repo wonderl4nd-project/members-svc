@@ -24,7 +24,6 @@ steps:
       "run", "deploy", "members-svc",
       "--image","gcr.io/wonderl4nd-project/members-svc:latest",
       "--region", "us-central1",
-      "--annotations", "commitId=${REVISION_ID}",
       "--update-env-vars", "MONGO_URI=mongodb+srv://admin:root@cluster0.vwpz2pv.mongodb.net/members_db?retryWrites=true&w=majority"
     ]
 
