@@ -1,0 +1,177 @@
+swagger: '2.0'
+info:
+  title: Members API
+  version: '1.0'
+basePath: /v1
+schemes:
+  - https
+paths:
+  /members:
+    post:
+      summary: Create a new member
+      operationId: members
+      x-google-backend:
+        address: https://members-svc-mclntq7k2a-uc.a.run.app
+        path_translation: APPEND_PATH_TO_ADDRESS
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/member'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/member'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+  /members/login:
+    post:
+      summary: Login with email and password
+      operationId: memberslogin
+      x-google-backend: 
+        address: https://members-svc-mclntq7k2a-uc.a.run.app
+        path_translation: APPEND_PATH_TO_ADDRESS
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/error'
+  /members/*:
+    get:
+      summary: Get user by username
+      operationId: membersusername
+      x-google-backend:
+        address: https://members-svc-mclntq7k2a-uc.a.run.app
+        path_translation: APPEND_PATH_TO_ADDRESS
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/member'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/error'
+    put:
+      summary: Update user by username
+      operationId: updatemember
+      x-google-backend:
+        address: https://members-svc-mclntq7k2a-uc.a.run.app
+        path_translation: APPEND_PATH_TO_ADDRESS
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/member'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/member'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/error'
+    delete:
+      summary: Delete user by username
+      operationId: deleteMember
+      x-google-backend:
+        address: https://members-svc-mclntq7k2a-uc.a.run.app
+        path_translation: APPEND_PATH_TO_ADDRESS
+      parameters:
+        - name: username
+          in: path
+          required: true
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/error'
+definitions:
+  member:
+    type: object
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      userStatus:
+        type: integer
+        format: int32
+  error:
+    type: object
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+        format: int32
