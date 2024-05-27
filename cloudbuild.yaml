@@ -17,15 +17,6 @@ steps:
    'gcr.io/wonderl4nd-project/members-svc:latest',
    '.'
   ]
-#Create Release
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'gcloud'
-  args: [
-      "run", "deploy", "members-svc",
-      "--image","gcr.io/wonderl4nd-project/members-svc:latest",
-      "--region", "us-central1",
-      "--update-env-vars", "MONGO_URI=mongodb+srv://admin:root@cluster0.vwpz2pv.mongodb.net/members_db?retryWrites=true&w=majority"
-    ]
 
 # push images to Google Container Registry with tags
 images: [
