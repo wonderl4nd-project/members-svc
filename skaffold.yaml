@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta10
+kind: Config
+metadata:
+  name: members-svc
+build:
+  artifacts:
+    - image: gcr.io/wonderl4nd-project/members-svc
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - docs/config/dev/application.deployment.yaml

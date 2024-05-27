@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: members-svc
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://localhost:27017/members_db}
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%d{yyyy-MM-dd} | %d{HH:mm:ss.SSS} | %-20.20thread | %highlight(%-5level) | %magenta(%-25.25logger{25}) | %m%n"
