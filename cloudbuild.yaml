@@ -21,11 +21,11 @@ steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
   args: [
-      "deploy", "releases", "create", "member-release-${SHORT_SHA}",
-      "--delivery-pipeline", "members-svc-delivery-pipeline",
+      "run", "deploy", "members-svc",
+      "--image","gcr.io/wonderl4nd-project/members-svc:latest",
       "--region", "us-central1",
       "--annotations", "commitId=${REVISION_ID}",
-      "--from-k8s-manifest", "config/stag/application.deployment.yaml"
+      "--update-env-vars", "MONGO_URI=mongodb+srv://admin:root@cluster0.vwpz2pv.mongodb.net/members_db?retryWrites=true&w=majority"
     ]
 
 # push images to Google Container Registry with tags
